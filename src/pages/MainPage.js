@@ -13,7 +13,7 @@ const MainPage = () => {
     <MainPageBlock>
       <MainHeader />
       <MainList />
-      <Link to="/write">
+      <Link to="/write/save">
         <FontAwesomeIcon
           icon={faPlusCircle}
           style={{

@@ -1,9 +1,19 @@
 import styled from "styled-components";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { changeInput, submitText } from "../../modules/dictionary";
+import dictionary, {
+  addDictionaryFB,
+  changeInput,
+  initializeForm,
+  loadDictionaryOne,
+  submitText,
+  updateDictionary,
+  updateDictionaryFB,
+} from "../../modules/dictionary";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import queryString from "query-string";
+import { useEffect } from "react";
 
 const MainWriteBlock = styled.div`
   max-width: 400px;
@@ -43,6 +53,7 @@ const MainWriteBlock = styled.div`
 `;
 
 const MainWrite = () => {
+  const dictionaryId = useParams().id;
   const dispatch = useDispatch();
   const { list } = useSelector(({ dictionary }) => ({
     list: dictionary.write,
@@ -54,12 +65,22 @@ const MainWrite = () => {
   };
   const submitTexts = (e) => {
     e.preventDefault();
-    dispatch(submitText(list));
+    dispatch(addDictionaryFB(list));
     navigate("/");
   };
+
+  const updateTexts = (dictionary_id) => {
+    dispatch(updateDictionaryFB(dictionary_id, list));
+    navigate("/");
+  };
+
+  useEffect(() => {
+    dispatch(initializeForm());
+    dictionaryId && dispatch(loadDictionaryOne(dictionaryId));
+  }, []);
   return (
     <MainWriteBlock>
-      <h1>단어 추가하기</h1>
+      {dictionaryId ? <h1>단어 수정하기</h1> : <h1>단어 추가하기</h1>}
       <form>
         <div className="input-box">
           <label htmlFor="word">단어</label>
@@ -67,6 +88,7 @@ const MainWrite = () => {
             id="word"
             type="text"
             name="word"
+            value={list.word}
             onChange={(e) => {
               changeText(e);
             }}
@@ -78,6 +100,7 @@ const MainWrite = () => {
             id="pinyin"
             type="text"
             name="pinyin"
+            value={list.pinyin}
             onChange={(e) => {
               changeText(e);
             }}
@@ -89,6 +112,7 @@ const MainWrite = () => {
             id="meaning"
             type="text"
             name="meaning"
+            value={list.meaning}
             onChange={(e) => {
               changeText(e);
             }}
@@ -100,6 +124,7 @@ const MainWrite = () => {
             id="sentence"
             type="text"
             name="sentence"
+            value={list.sentence}
             onChange={(e) => {
               changeText(e);
             }}
@@ -111,12 +136,17 @@ const MainWrite = () => {
             id="interpretation"
             type="text"
             name="interpretation"
+            value={list.interpretation}
             onChange={(e) => {
               changeText(e);
             }}
           />
         </div>
-        <button onClick={submitTexts}>저장하기</button>
+        {dictionaryId ? (
+          <button onClick={() => updateTexts(dictionaryId)}>수정하기</button>
+        ) : (
+          <button onClick={submitTexts}>저장하기</button>
+        )}
       </form>
     </MainWriteBlock>
   );

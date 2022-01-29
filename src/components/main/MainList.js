@@ -27,7 +27,7 @@ const MainList = () => {
     <MainListBlock>
       <div className="main-list">
         {list.map((item, index) => {
-          return <MainItem item={item} />;
+          return <MainItem item={item} key={index} />;
         })}
       </div>
     </MainListBlock>

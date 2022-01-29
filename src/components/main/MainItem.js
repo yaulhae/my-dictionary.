@@ -4,11 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+
 const MainItemBlock = styled.div`
   padding: 1.25em;
   border: 2px solid rgb(10, 112, 41);
   border-radius: 10px;
-
+  background: ${(props) => props.reveal && "#0A7029"};
+  color: ${(props) => props.reveal && "white"};
   .main-item-title {
     display: flex;
     justify-content: space-between;
@@ -20,6 +24,7 @@ const MainItemBlock = styled.div`
     svg {
       margin-left: 0.5em;
       color: rgb(10, 112, 41);
+      color: ${(props) => props.reveal && "white"};
     }
   }
   > p:nth-child(2) {
@@ -27,26 +32,43 @@ const MainItemBlock = styled.div`
   }
   > p:nth-child(4) {
     font-size: 0.875em;
-    color: rgb(10, 112, 41);
+    color: rgb(9, 132, 227);
+    color: ${(props) => props.reveal && "white"};
   }
   > p:nth-child(5) {
     font-size: 0.875em;
-    color: rgb(10, 112, 41);
+    color: rgb(9, 132, 227);
+    color: ${(props) => props.reveal && "white"};
   }
-
+  @media screen and (min-width: 120px) {
+    width: calc((100%) / 1);
+  }
+  @media screen and (min-width: 768px) {
+    width: calc((100% - 20px) / 2);
+  }
   @media screen and (min-width: 1024px) {
     width: calc((100% - 40px) / 3);
   }
 `;
 
 const MainItem = ({ item }) => {
+  const [reveal, setReveal] = useState(false);
+  const revealToggle = () => {
+    setReveal(!reveal);
+  };
   return (
-    <MainItemBlock>
+    <MainItemBlock reveal={reveal}>
       <div className="main-item-title">
         <b>{item.word}</b>
         <div>
-          <FontAwesomeIcon icon={faCheck} />
-          <FontAwesomeIcon icon={faEdit} />
+          <FontAwesomeIcon
+            icon={faCheck}
+            style={{ cursor: "pointer" }}
+            onClick={revealToggle}
+          />
+          <Link to={`/write/${item.id}/edit`}>
+            <FontAwesomeIcon icon={faEdit} />
+          </Link>
           <FontAwesomeIcon icon={faTimes} />
         </div>
       </div>

@@ -12,17 +12,20 @@ import {
   doc,
 } from "firebase/firestore";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadDictionaryFB } from "./modules/dictionary";
 
 function App() {
+  const dispatch = useDispatch();
   useEffect(async () => {
-    const docRef = doc(db, "dictionary", "gEbaV4s6Xil4RhuRdL49");
-    deleteDoc(docRef);
+    dispatch(loadDictionaryFB());
   }, []);
 
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/write" element={<MainWritePage />} />
+      <Route path="/write/save" element={<MainWritePage />} />
+      <Route path="/write/:id/edit" element={<MainWritePage />} />
     </Routes>
   );
 }
