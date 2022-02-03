@@ -16,17 +16,33 @@ const MainItemBlock = styled.div`
   background: ${(props) => props.reveal && "#0A7029"};
   color: ${(props) => props.reveal && "white"};
   .main-item-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
+
     b {
+      width: 80%;
       font-size: 1.5rem;
       font-weight: 700;
+      min-height: 28px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: nowrap;
     }
+
     svg {
+      position: absolute;
+      right: 0;
+      top: 0.8rem;
       margin-left: 0.5em;
       color: rgb(10, 112, 41);
       color: ${(props) => props.reveal && "white"};
+    }
+    .svg_1 {
+      right: 3em;
+    }
+    .svg_2 {
+      right: 1.3em;
     }
   }
   > p:nth-child(2) {
@@ -62,13 +78,14 @@ const MainItem = React.memo(({ item }) => {
         <div>
           <FontAwesomeIcon
             icon={faCheck}
+            className="svg_1"
             style={{ cursor: "pointer" }}
             onClick={() => dispatch(checkDictionaryFB(item.id))}
           />
           <Link to={`/write/${item.id}/edit`}>
-            <FontAwesomeIcon icon={faEdit} />
+            <FontAwesomeIcon icon={faEdit} className="svg_2" />
           </Link>
-          <FontAwesomeIcon icon={faTimes} />
+          <FontAwesomeIcon icon={faTimes} className="svg_3" />
         </div>
       </div>
       <p>{item.pinyin}</p>
