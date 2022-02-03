@@ -10,6 +10,7 @@ const MainHeaderBlock = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1;
   background: white;
   border-bottom: 1px solid black;
 `;
