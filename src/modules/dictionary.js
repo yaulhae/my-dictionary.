@@ -68,7 +68,7 @@ export const loading = (is_loading) => ({
 });
 
 //미들웨어 정의
-export const loadDictionaryFB = (start = null, size = 9) => {
+export const loadDictionaryFB = (start = null, size = 18) => {
   return async function (dispatch, getState) {
     let _paging = getState().dictionary.paging;
     if (_paging.start && !_paging.next) {
@@ -150,7 +150,7 @@ const initialState = {
     sentence: "",
     interpretation: "",
   },
-  paging: { start: null, next: null, size: 9 },
+  paging: { start: null, next: null, size: 18 },
   is_loading: false,
 };
 
