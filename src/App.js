@@ -13,11 +13,15 @@ import {
 } from "firebase/firestore";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadDictionaryFB } from "./modules/dictionary";
+import {
+  addDictionaryFB,
+  loadDictionaryFB,
+  submitText,
+} from "./modules/dictionary";
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(async () => {
+  useEffect(() => {
     dispatch(loadDictionaryFB());
   }, []);
 

@@ -3,6 +3,9 @@ import React from "react";
 import MainItem from "./MainItem";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { loadDictionaryFB } from "../../modules/dictionary";
+import InfinityScroll from "../common/InfinityScroll";
 
 const MainListBlock = styled.div`
   max-width: 1300px;
@@ -20,17 +23,35 @@ const MainListBlock = styled.div`
 `;
 
 const MainList = () => {
+  const dispatch = useDispatch();
   const { list } = useSelector(({ dictionary }) => ({
     list: dictionary.list,
   }));
+  const { is_loading } = useSelector(({ dictionary }) => ({
+    is_loading: dictionary.is_loading,
+  }));
+  const { paging } = useSelector(({ dictionary }) => ({
+    paging: dictionary.paging,
+  }));
+
   return (
-    <MainListBlock>
-      <div className="main-list">
-        {list.map((item, index) => {
-          return <MainItem item={item} key={index} />;
-        })}
-      </div>
-    </MainListBlock>
+    <>
+      <MainListBlock>
+        <InfinityScroll
+          callNext={() => {
+            dispatch(loadDictionaryFB(paging.next));
+          }}
+          is_next={paging.next ? true : false}
+          loading={is_loading}
+        >
+          <div className="main-list">
+            {list.map((item, index) => {
+              return <MainItem item={item} key={index} />;
+            })}
+          </div>
+        </InfinityScroll>
+      </MainListBlock>
+    </>
   );
 };
 

@@ -5,6 +5,7 @@ import dictionary, {
   addDictionaryFB,
   changeInput,
   initializeForm,
+  loadDictionaryFB,
   loadDictionaryOne,
   submitText,
   updateDictionary,
@@ -63,9 +64,11 @@ const MainWrite = () => {
   const changeText = (event) => {
     dispatch(changeInput(event.target.name, event.target.value));
   };
+
   const submitTexts = (e) => {
     e.preventDefault();
-    dispatch(addDictionaryFB(list));
+    const new_list = { ...list, checked: false };
+    dispatch(addDictionaryFB(new_list));
     navigate("/");
   };
 

@@ -6,6 +6,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { checkDictionaryFB } from "../../modules/dictionary";
+import { useDispatch } from "react-redux";
 
 const MainItemBlock = styled.div`
   padding: 1.25em;
@@ -51,20 +53,17 @@ const MainItemBlock = styled.div`
   }
 `;
 
-const MainItem = ({ item }) => {
-  const [reveal, setReveal] = useState(false);
-  const revealToggle = () => {
-    setReveal(!reveal);
-  };
+const MainItem = React.memo(({ item }) => {
+  const dispatch = useDispatch();
   return (
-    <MainItemBlock reveal={reveal}>
+    <MainItemBlock reveal={item.checked}>
       <div className="main-item-title">
         <b>{item.word}</b>
         <div>
           <FontAwesomeIcon
             icon={faCheck}
             style={{ cursor: "pointer" }}
-            onClick={revealToggle}
+            onClick={() => dispatch(checkDictionaryFB(item.id))}
           />
           <Link to={`/write/${item.id}/edit`}>
             <FontAwesomeIcon icon={faEdit} />
@@ -78,6 +77,6 @@ const MainItem = ({ item }) => {
       <p>{item.interpretation}</p>
     </MainItemBlock>
   );
-};
+});
 
 export default MainItem;
